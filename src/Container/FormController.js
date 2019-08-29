@@ -5,6 +5,7 @@ class FormController extends Component {
     render() {
         return (
             <div className="form-controller">
+                <h1>My First React-Redux Form</h1>
                 <FormComponent></FormComponent>
             </div>
         )

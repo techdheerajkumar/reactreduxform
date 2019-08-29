@@ -8,7 +8,8 @@ class FormComponent extends Component {
             name: "",
             userName: "",
             email: ""
-        }
+        },
+        isTrue: false
     }
     handleNameChange = (e) => {
         const formData = { ...this.state.formData, name: e.target.value }
@@ -45,6 +46,7 @@ class FormComponent extends Component {
                             type="text"
                             className="form-control"
                             onChange={this.handleNameChange}
+                            required
                             value={this.state.formData.name} />
                     </div>
                     <div className="form-group">
@@ -53,6 +55,7 @@ class FormComponent extends Component {
                             type="text"
                             className="form-control"
                             onChange={this.handleUserChange}
+                            required
                             value={this.state.formData.userName} />
                     </div>
                     <div className="form-group">
@@ -61,10 +64,10 @@ class FormComponent extends Component {
                             type="text"
                             className="form-control"
                             onChange={this.handleEmailChange}
+                            required
                             value={this.state.formData.email} />
                     </div>
-
-                    <input type="submit" value="save" className="btn btn-primary" />
+                    <input disabled={this.state.isTrue} type="submit" value="save" className="btn btn-primary" />
                 </form>
                 <ul>
                     {this.props.formDatas.map((form, id) => (

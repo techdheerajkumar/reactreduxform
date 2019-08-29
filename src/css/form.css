@@ -1,0 +1,21 @@
+.form-component{
+    padding: 30px 10px
+}
+.form-component ul{
+    margin:0;
+    padding:0
+}
+.form-component ul li{
+    display: block;
+    margin: 10px 0;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    padding-top: 10px;
+}
+.form-component ul li h4{
+    font-size: 16px;
+    font-weight: 400;
+    display: inline-block;
+    margin: 0 10px;
+    width: 28%;
+}

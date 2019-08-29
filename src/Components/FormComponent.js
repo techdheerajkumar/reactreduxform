@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as dataType from '../store/action'
+require('../css/form.css')
 class FormComponent extends Component {
-
     state = {
         formData: {
             name: "",
             userName: "",
-            email: "",
+            email: ""
         }
     }
-
-
-
     handleNameChange = (e) => {
         const formData = { ...this.state.formData, name: e.target.value }
         this.setState({ formData })
@@ -28,20 +25,19 @@ class FormComponent extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.showData(this.state.formData)
-        const name = { ...this.state.formData, name: '' };
-        const userName = { ...this.state.formData, userName: '' };
-        const email = { ...this.state.formData, email: '' };
-        this.setState({
-            name,
-            userName,
-            email
-        })
+        this.setState(prevState => ({
+            formData: {
+                ...prevState.formData,
+                name: "",
+                userName: "",
+                email: ""
+            }
+        }))
     }
-
     render() {
 
         return (
-            <div>
+            <div className="form-component">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>Name:</label>
@@ -57,7 +53,7 @@ class FormComponent extends Component {
                             type="text"
                             className="form-control"
                             onChange={this.handleUserChange}
-                            value={this.state.formData.username} />
+                            value={this.state.formData.userName} />
                     </div>
                     <div className="form-group">
                         <label>Email:</label>
@@ -68,31 +64,30 @@ class FormComponent extends Component {
                             value={this.state.formData.email} />
                     </div>
 
-                    <input type="submit" value="save" />
+                    <input type="submit" value="save" className="btn btn-primary" />
                 </form>
-
-                {this.props.formDatas.map((form, id) => (
-                    <div key={id}>{form.name}</div>
-                ))}
-
-
+                <ul>
+                    {this.props.formDatas.map((form, id) => (
+                        <li key={id}>
+                            <h4>{form.name}</h4>
+                            <h4>{form.userName}</h4>
+                            <h4>{form.email}</h4>
+                        </li>
+                    ))}
+                </ul>
             </div>
         )
     }
 }
-
-
 function mapStateToProps(state) {
     return {
-        formDatas: state.reducer
+        formDatas: state.dummy //Recieving dummy from index.js 
     }
-
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        showData: data => dispatch(dataType.showData(data))
+        showData: data => dispatch(dataType.showData(data)) //Calling showData() from action.js
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(FormComponent) 

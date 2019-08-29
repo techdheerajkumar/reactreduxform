@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import reducer from './reducer'
+import dummy from './reducer'
 
 const rootReducer = combineReducers({
-    reducer
+    dummy //mapStateToProps
 })
 
 export default rootReducer;

@@ -1,0 +1,17 @@
+nav{
+    background: rgb(207, 249, 252);
+    width:100%;
+    min-height: 70px;
+    height: 100%;
+    text-align: right;
+
+}
+nav ul{
+    margin:0;
+    padding:0;
+}
+nav li{
+    display: inline-block;
+    line-height: 70px;
+    padding: 0 10px;
+}

@@ -52,11 +52,18 @@ class FormComponent extends Component {
         this.setState({ formData })
     }
 
+    // handleChange = (e) => {
+    //     e.preventDefault();
+    //     const { name, value } = e.target;
+    //     const formData = { ...this.state.formData, firstName: value };
 
+    //     console.log(formData)
+    // }
     //submitting the form
     handleSubmit = (e) => {
+
         e.preventDefault();
-        console.log(this.state.formError)
+        console.log(this.state.formData)
         //Pushing form data to redux store
         this.props.showData(this.state.formData)
 
@@ -75,13 +82,15 @@ class FormComponent extends Component {
     render() {
         return (
             <div className="form-component">
-                <form onSubmit={this.validate}>
+                <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>First Name:</label>
                         <input
                             type="text"
                             className="form-control"
+                            name="firstname"
                             onChange={this.handleFirstNameChange}
+                            //onChange={this.handleChange}
                             required
                             value={this.state.formData.firstName} />
                         <p>{this.state.formError.firstName}</p>
@@ -91,7 +100,9 @@ class FormComponent extends Component {
                         <input
                             type="text"
                             className="form-control"
+                            name="lastname"
                             onChange={this.handleLastNameChange}
+                            //onChange={this.handleChange}
                             required
                             value={this.state.formData.lastName} />
                         <p>{this.state.formError.lastName}</p>
@@ -101,7 +112,9 @@ class FormComponent extends Component {
                         <input
                             type="text"
                             className="form-control"
+                            name="email"
                             onChange={this.handleEmailChange}
+                            // onChange={this.handleChange}
                             required
                             value={this.state.formData.email} />
                         <p>{this.state.formError.email}</p>
@@ -111,7 +124,9 @@ class FormComponent extends Component {
                         <input
                             type="text"
                             className="form-control"
+                            name="password"
                             onChange={this.handlePasswordChange}
+                            //onChange={this.handleChange}
                             required
                             value={this.state.formData.password} />
                         <p>{this.state.formError.password}</p>

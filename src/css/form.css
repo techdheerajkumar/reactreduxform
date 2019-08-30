@@ -1,8 +1,12 @@
 .form-component{
-    padding: 30px 10px;
+    padding: 30px 36px;
     max-width: 400px;
     margin: 0 auto;
     width: 100%;
+    text-align: left;
+    background: #e8e8e8;
+    border-radius: 4px;
+    box-shadow: 1px 1px 25px 7px #EEE;
 }
 .form-component ul{
     margin:0;
@@ -21,4 +25,9 @@
     display: inline-block;
     margin: 0 10px;
     width: 28%;
+}
+.form-component input[type="submit"]{
+    display: block;
+    margin: 0 auto;
+    width: 100px;
 }

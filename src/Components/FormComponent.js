@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as dataType from '../store/action'
 require('../css/form.css')
+const validate = (formError) => {
+
+}
 class FormComponent extends Component {
     state = {
         formData: {
@@ -15,68 +18,63 @@ class FormComponent extends Component {
             lastName: "",
             email: "",
             password: ""
-        }
+        },
+        isValid: false
     }
-    validate = (e) => {
+
+    //updating the formdata values in state
+    handleChange = (e) => {
         e.preventDefault();
-        let formData = this.state.formData;
-        let formError = this.state.formError;
-        if (formData.firstName.length < 3) {
-            this.setState(prevState => ({
-                formError: {
-                    ...prevState.formError,
-                    firstName: "Minimum length is 3"
-                }
-            }))
-        }
-    }
-
-    //updating first name value
-    handleFirstNameChange = (e) => {
-        const formData = { ...this.state.formData, firstName: e.target.value }
-        this.setState({ formData })
-    }
-    //updating last name value
-    handleLastNameChange = (e) => {
-        const formData = { ...this.state.formData, lastName: e.target.value }
-        this.setState({ formData })
-    }
-    //updating email value
-    handleEmailChange = (e) => {
-        const formData = { ...this.state.formData, email: e.target.value }
-        this.setState({ formData })
-    }
-    //updating password value
-    handlePasswordChange = (e) => {
-        const formData = { ...this.state.formData, password: e.target.value }
-        this.setState({ formData })
-    }
-
-    // handleChange = (e) => {
-    //     e.preventDefault();
-    //     const { name, value } = e.target;
-    //     const formData = { ...this.state.formData, firstName: value };
-
-    //     console.log(formData)
-    // }
-    //submitting the form
-    handleSubmit = (e) => {
-
-        e.preventDefault();
-        console.log(this.state.formData)
-        //Pushing form data to redux store
-        this.props.showData(this.state.formData)
-
-        //resetting the values to empty after submitting
+        const { name, value } = e.target;
+        console.log(`name of the field ${name} && value of the field ${value}`)
         this.setState(prevState => ({
+            ...prevState,
             formData: {
                 ...prevState.formData,
-                firstName: "",
-                lastName: "",
-                email: "",
-                password: ""
+                [name]: value
             }
-        }));
+        }), console.log(this.state.formData))
+    }
+
+    //submitting the form
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        //Validation of form
+        if (validate(this.state.formError)) {
+            //Pushing form data to redux store
+            this.props.showData(this.state.formData)
+            //resetting the values to empty after submitting
+            this.setState(prevState => ({
+                ...prevState,
+                formData: {
+                    ...prevState.formData,
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: ""
+                }
+            }));
+        } else {
+            console.log('not pushed to redux')
+        }
+
+
+
+
+        // //Pushing form data to redux store
+        // this.props.showData(this.state.formData)
+        // //resetting the values to empty after submitting
+        // this.setState(prevState => ({
+        //     ...prevState,
+        //     formData: {
+        //         ...prevState.formData,
+        //         firstName: "",
+        //         lastName: "",
+        //         email: "",
+        //         password: ""
+        //     }
+        // }));
     }
 
     render() {
@@ -88,9 +86,8 @@ class FormComponent extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            name="firstname"
-                            onChange={this.handleFirstNameChange}
-                            //onChange={this.handleChange}
+                            name="firstName"
+                            onChange={this.handleChange}
                             required
                             value={this.state.formData.firstName} />
                         <p>{this.state.formError.firstName}</p>
@@ -100,9 +97,8 @@ class FormComponent extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            name="lastname"
-                            onChange={this.handleLastNameChange}
-                            //onChange={this.handleChange}
+                            name="lastName"
+                            onChange={this.handleChange}
                             required
                             value={this.state.formData.lastName} />
                         <p>{this.state.formError.lastName}</p>
@@ -113,8 +109,7 @@ class FormComponent extends Component {
                             type="text"
                             className="form-control"
                             name="email"
-                            onChange={this.handleEmailChange}
-                            // onChange={this.handleChange}
+                            onChange={this.handleChange}
                             required
                             value={this.state.formData.email} />
                         <p>{this.state.formError.email}</p>
@@ -125,13 +120,12 @@ class FormComponent extends Component {
                             type="text"
                             className="form-control"
                             name="password"
-                            onChange={this.handlePasswordChange}
-                            //onChange={this.handleChange}
+                            onChange={this.handleChange}
                             required
                             value={this.state.formData.password} />
                         <p>{this.state.formError.password}</p>
                     </div>
-                    <input disabled={this.state.isTrue} type="submit" value="Create" className="btn btn-primary" />
+                    <input disabled={!this.state.isValid} type="submit" value="Create" className="btn btn-primary" />
                 </form>
                 {/* <ul>
                     {this.props.formDatas.map((form, id) => (

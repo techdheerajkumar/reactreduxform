@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as dataType from '../store/action'
 require('../css/form.css')
-const validate = (formError) => {
 
-}
 class FormComponent extends Component {
     state = {
         formData: {
@@ -26,22 +24,64 @@ class FormComponent extends Component {
     handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
-        console.log(`name of the field ${name} && value of the field ${value}`)
         this.setState(prevState => ({
             ...prevState,
             formData: {
                 ...prevState.formData,
                 [name]: value
             }
-        }), console.log(this.state.formData))
+        }))
     }
-
+    validate = () => {
+        let isValid = true;
+        let formData = this.state.formData;
+        let formError = this.state.formError;
+        if (formData.firstName === "") {
+            this.setState(prevState => ({
+                ...prevState,
+                formError: {
+                    ...prevState.formError,
+                    firstName: "enter a name"
+                }
+            }))
+            isValid = false
+        }
+        if (formData.lastName === "") {
+            this.setState(prevState => ({
+                ...prevState,
+                formError: {
+                    ...prevState.formError,
+                    lastName: "enter a name"
+                }
+            }))
+            isValid = false
+        }
+        if (formData.email === "" || !formData.email.includes("@")) {
+            this.setState(prevState => ({
+                ...prevState,
+                formError: {
+                    ...prevState.formError,
+                    email: "enter a valid email"
+                }
+            }))
+            isValid = false
+        }
+        if (formData.password === "" && formData.password < 8) {
+            this.setState(prevState => ({
+                ...prevState,
+                formError: {
+                    ...prevState.formError,
+                    password: "password must contain minimum 8 characters"
+                }
+            }))
+            isValid = false
+        }
+        return isValid;
+    }
     //submitting the form
     handleSubmit = (e) => {
         e.preventDefault();
-
-        //Validation of form
-        if (validate(this.state.formError)) {
+        if (this.validate()) {
             //Pushing form data to redux store
             this.props.showData(this.state.formData)
             //resetting the values to empty after submitting
@@ -53,29 +93,25 @@ class FormComponent extends Component {
                     lastName: "",
                     email: "",
                     password: ""
+                },
+                formError: {
+                    ...prevState.formError,
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: ""
                 }
             }));
         } else {
-            console.log('not pushed to redux')
+            console.log("not submitted")
+            return false
         }
 
 
 
 
-        // //Pushing form data to redux store
-        // this.props.showData(this.state.formData)
-        // //resetting the values to empty after submitting
-        // this.setState(prevState => ({
-        //     ...prevState,
-        //     formData: {
-        //         ...prevState.formData,
-        //         firstName: "",
-        //         lastName: "",
-        //         email: "",
-        //         password: ""
-        //     }
-        // }));
     }
+
 
     render() {
         return (
@@ -88,7 +124,6 @@ class FormComponent extends Component {
                             className="form-control"
                             name="firstName"
                             onChange={this.handleChange}
-                            required
                             value={this.state.formData.firstName} />
                         <p>{this.state.formError.firstName}</p>
                     </div>
@@ -99,7 +134,6 @@ class FormComponent extends Component {
                             className="form-control"
                             name="lastName"
                             onChange={this.handleChange}
-                            required
                             value={this.state.formData.lastName} />
                         <p>{this.state.formError.lastName}</p>
                     </div>
@@ -110,22 +144,20 @@ class FormComponent extends Component {
                             className="form-control"
                             name="email"
                             onChange={this.handleChange}
-                            required
                             value={this.state.formData.email} />
                         <p>{this.state.formError.email}</p>
                     </div>
                     <div className="form-group">
                         <label>Password:</label>
                         <input
-                            type="text"
+                            type="password"
                             className="form-control"
                             name="password"
                             onChange={this.handleChange}
-                            required
                             value={this.state.formData.password} />
                         <p>{this.state.formError.password}</p>
                     </div>
-                    <input disabled={!this.state.isValid} type="submit" value="Create" className="btn btn-primary" />
+                    <input type="submit" value="Create" className="btn btn-primary" />
                 </form>
                 {/* <ul>
                     {this.props.formDatas.map((form, id) => (

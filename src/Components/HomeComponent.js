@@ -14,7 +14,10 @@ class HomeComponent extends Component {
         return (
             <div className="home-component">
                 <div className="container">
-                    <h1>List of Registered Users</h1>
+                    {this.props.formData.length > 0
+                        ? <h1>Registered Users</h1>
+                        : <h1>Please Register yourself!</h1>
+                    }
                     <ul>
                         {this.props.formData.map((data, id) => {
                             return (

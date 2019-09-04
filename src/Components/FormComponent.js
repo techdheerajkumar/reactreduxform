@@ -17,9 +17,9 @@ class FormComponent extends Component {
             email: "",
             password: ""
         },
-        isValid: false
+        isValid: false,
+        info: ""
     }
-
     //updating the formdata values in state
     handleChange = (e) => {
         e.preventDefault();
@@ -36,22 +36,22 @@ class FormComponent extends Component {
         let isValid = true;
         let formData = this.state.formData;
         let formError = this.state.formError;
-        if (formData.firstName === "") {
+        if (formData.firstName === "" || formData.firstName.length <= 3) {
             this.setState(prevState => ({
                 ...prevState,
                 formError: {
                     ...prevState.formError,
-                    firstName: "enter a name"
+                    firstName: "minimum 3 characters required"
                 }
             }))
             isValid = false
         }
-        if (formData.lastName === "") {
+        if (formData.lastName === "" || formData.lastName.length <= 3) {
             this.setState(prevState => ({
                 ...prevState,
                 formError: {
                     ...prevState.formError,
-                    lastName: "enter a name"
+                    lastName: "minimum 3 characters required"
                 }
             }))
             isValid = false
@@ -66,7 +66,7 @@ class FormComponent extends Component {
             }))
             isValid = false
         }
-        if (formData.password === "" && formData.password < 8) {
+        if (formData.password === "" || formData.password.length <= 8 || formData.password.length >= 20) {
             this.setState(prevState => ({
                 ...prevState,
                 formError: {
@@ -100,19 +100,20 @@ class FormComponent extends Component {
                     lastName: "",
                     email: "",
                     password: ""
-                }
+                },
+                info: "Registered Successfully"
             }));
+            setTimeout(() => {
+                this.setState(prevState => ({
+                    ...prevState,
+                    info: ""
+                }))
+            }, 3000);
         } else {
             console.log("not submitted")
             return false
         }
-
-
-
-
     }
-
-
     render() {
         return (
             <div className="form-component">
@@ -159,16 +160,9 @@ class FormComponent extends Component {
                     </div>
                     <input type="submit" value="Create" className="btn btn-primary" />
                 </form>
-                {/* <ul>
-                    {this.props.formDatas.map((form, id) => (
-                        <li key={id}>
-                            <h4>{form.firstName}</h4>
-                            <h4>{form.lastName}</h4>
-                            <h4>{form.email}</h4>
-                            <h4>{form.password}</h4>
-                        </li>
-                    ))}
-                </ul> */}
+                {!this.state.info === ""
+                    ? null
+                    : <p>{this.state.info}</p>}
             </div>
         )
     }

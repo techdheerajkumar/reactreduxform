@@ -36,3 +36,7 @@
     font-size: 14px;
     
 }
+.form-component > p{
+    transition: 1s;
+    color: #000;
+}
